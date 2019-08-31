@@ -1,28 +1,19 @@
-import { Trip } from "./trip";
-import * as api from './api';
-import * as schema from './api/schema'
-import { User } from './models/user'
+import { UserAddTrip } from "./trips/user";
+import { User } from "./models/user";
 
-class UserTrip extends Trip<schema.UserParams, never, schema.User> {
-  user?: User
+async function addUser() {
+  const user = new User()
+  const trip = new UserAddTrip()
+  trip.setBody(user)
 
-  protected validator() {}
-
-  protected async executor() {
-    if (!this.params) throw null
-
-    const res = await api.getUser({
-      params: this.params,
-    })
-
-    switch (res.status) {
-      case 200:
-        this.user = new User(res.data)
-        break
-      case 404:
-        break
-      default:
-        throw res
+  try {
+    await trip.execute();
+    if (trip.validationErrors) {
+      console.log("validation error");
+    } else {
+      console.log('success')
     }
+  } catch (error) {
+    console.log('api error')
   }
 }

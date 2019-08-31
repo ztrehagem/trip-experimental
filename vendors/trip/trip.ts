@@ -1,4 +1,4 @@
-export abstract class Trip<P, Q, B, V = void> {
+export abstract class Trip<P, Q, B> {
   isSubmitting = false;
   isSubmitted = false;
   protected params?: P;
@@ -17,12 +17,7 @@ export abstract class Trip<P, Q, B, V = void> {
     this.body = body;
   }
 
-  protected abstract validator(): V;
   protected abstract executor(): Promise<void>;
-
-  validate() {
-    return this.validator();
-  }
 
   async execute() {
     try {
