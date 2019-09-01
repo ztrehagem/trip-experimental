@@ -9,8 +9,8 @@ Vue.use(Vuex)
 const rootModule = new vsm.Module({
   modules: {
     user,
-    app,
+    app
   }
-});
+})
 
 export default vsm.createStore(rootModule)

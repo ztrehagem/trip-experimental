@@ -1,11 +1,11 @@
-import * as vsm from "vuex-smart-module";
+import * as vsm from 'vuex-smart-module'
 
 class State {
   isLoggedIn = false
 }
 
 class Mutations extends vsm.Mutations<State> {
-  setLoggedIn(isLoggedIn: boolean) {
+  setLoggedIn (isLoggedIn: boolean) {
     this.state.isLoggedIn = isLoggedIn
   }
 }
@@ -17,4 +17,4 @@ export default new vsm.Module({
   state: State,
   mutations: Mutations,
   actions: Actions
-});
+})

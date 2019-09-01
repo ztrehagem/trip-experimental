@@ -1,21 +1,44 @@
 {
-  "name": "trip-experimental",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
   "dependencies": {
     "@ztrehagem/daty": "^0.4.0",
+    "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "vuex": "^3.1.1",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.1.0",
+    "vuex": "^3.0.1",
     "vuex-smart-module": "^0.3.1"
   },
   "devDependencies": {
-    "typescript": "^3.6.2"
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-plugin-typescript": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^8.1.5",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "typescript": "^3.4.3",
+    "vue-template-compiler": "^2.6.10"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "lint-staged": {
+    "*.{js,vue,ts}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }

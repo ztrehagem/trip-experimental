@@ -5,17 +5,17 @@ export class User {
   name = ''
   birthday = new Daty()
 
-  constructor(u?: schema.User) {
+  constructor (u?: schema.User) {
     if (u) {
-      this.name = u.name;
-      this.birthday = new Daty(new Date(u.birthday));
+      this.name = u.name
+      this.birthday = new Daty(new Date(u.birthday))
     }
   }
 
-  serialize(): schema.User {
+  serialize (): schema.User {
     return {
       name: this.name,
-      birthday: this.birthday.jsDate.toString(),
-    };
+      birthday: this.birthday.jsDate.toString()
+    }
   }
 }
