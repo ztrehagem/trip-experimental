@@ -2,6 +2,8 @@ import { Trip } from "../vendors/trip";
 import * as api from "../api";
 import * as schema from "../api/schema";
 import { User } from "../models/user";
+import store from '../store';
+import app from '../store/app';
 
 export class UserTrip extends Trip<schema.UserParams, void, schema.User> {
   user?: User;
@@ -29,7 +31,7 @@ export class UserAddTrip extends Trip<void, void, User> {
   validationErrors?: schema.ValidationErrors;
 
   protected async executor() {
-    if (!this.params || !this.body) throw null;
+    if (!this.body) throw null;
 
     const res = await api.postUser({
       body: this.body.serialize(),
@@ -40,6 +42,9 @@ export class UserAddTrip extends Trip<void, void, User> {
         break;
       case 400:
         this.validationErrors = res.data
+        break;
+      case 403:
+        app.context(store).mutations.setLoggedIn(false)
         break;
       default:
         throw res;
