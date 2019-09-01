@@ -1,18 +1,25 @@
-import { Trip } from '@/plugins/trip'
-import * as api from '@/api'
-import * as schema from '@/api/schema'
-import { User } from '@/models/user'
-import store from '@/store'
-import app from '@/store/app'
+import { Trip } from '../plugins/trip'
+import * as api from '../api'
+import * as schema from '../api/schema'
+import { User } from '../models/user'
+import store from '../store'
+import app from '../store/app'
 
-export class UserGetTrip extends Trip<schema.UserParams, void, void> {
-  user?: User;
+export class UserGetTrip extends Trip {
+  user?: User
+  protected id?: number
+
+  prepare (id: number) {
+    this.id = id
+  }
 
   protected async executor () {
-    if (!this.params) throw new Error()
-
+    if (!this.id) throw new Error()
+    console.log(this.isSubmitting)
     const res = await api.getUser({
-      params: this.params
+      params: {
+        id: this.id
+      }
     })
 
     switch (res.status) {
@@ -29,14 +36,19 @@ export class UserGetTrip extends Trip<schema.UserParams, void, void> {
   }
 }
 
-export class UserAddTrip extends Trip<void, void, User> {
-  validationErrors?: schema.ValidationErrors;
+export class UserAddTrip extends Trip {
+  validationErrors?: schema.ValidationErrors
+  protected user?: User
+
+  prepare (u: User) {
+    this.user = u
+  }
 
   protected async executor () {
-    if (!this.body) throw new Error()
+    if (!this.user) throw new Error()
 
     const res = await api.postUser({
-      body: this.body.serialize()
+      body: this.user.serialize()
     })
 
     switch (res.status) {

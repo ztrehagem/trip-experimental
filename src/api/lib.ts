@@ -9,5 +9,5 @@ export interface StatusedResponse<S extends number, R> extends ApiResponse<R> {
 
 export function api<T> (num: number, fn: (n: number) => T) {
   const n = Math.floor(Math.random() * num)
-  return new Promise<T>((resolve, reject) => resolve(fn(n)))
+  return new Promise<T>((resolve, reject) => setTimeout(() => resolve(fn(n)), 1000))
 }

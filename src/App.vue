@@ -5,11 +5,12 @@
     <button type="button" @click.prevent="login">login</button>
     <button type="button" @click.prevent="addUser">addUser</button>
     <div>isLoggedIn: {{$store.state.app.isLoggedIn}}</div>
+    <div>submitting: {{submitting}}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import HelloWorld from './components/HelloWorld.vue'
 import { User } from './models/user'
 import { UserGetTrip, UserAddTrip } from './trips/user'
@@ -33,6 +34,17 @@ export default class App extends Vue {
     return userStore.context(this.$store).state.user
   }
 
+  // not work
+  get submitting () {
+    return this.trip.isSubmitting
+  }
+
+  // not work
+  @Watch('trip.isSubmitting')
+  onSubmitting () {
+    console.log('App submitting?', this.trip.isSubmitting)
+  }
+
   async getUser () {
     await userStore.context(this.$store).actions.load()
     console.log('got user', this.user)
@@ -45,7 +57,7 @@ export default class App extends Vue {
   async addUser () {
     const user = new User()
     const trip = new UserAddTrip()
-    trip.setBody(user)
+    trip.prepare(user)
 
     try {
       await trip.execute()
