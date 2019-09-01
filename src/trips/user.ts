@@ -18,8 +18,10 @@ export class UserGetTrip extends Trip<schema.UserParams, void, void> {
     switch (res.status) {
       case 200:
         this.user = new User(res.data)
+        console.log(200, this.user)
         break
       case 404:
+        console.log(404)
         break
       default:
         throw res
@@ -39,14 +41,18 @@ export class UserAddTrip extends Trip<void, void, User> {
 
     switch (res.status) {
       case 201:
+        console.log(201)
         break
       case 400:
         this.validationErrors = res.data
+        console.log(400, this.validationErrors)
         break
       case 403:
         app.context(store).mutations.setLoggedIn(false)
+        console.log(403)
         throw res
       default:
+        console.log(500)
         throw res
     }
   }

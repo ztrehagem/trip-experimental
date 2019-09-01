@@ -14,6 +14,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import { User } from './models/user'
 import { UserGetTrip, UserAddTrip } from './trips/user'
 import appStore from './store/app'
+import userStore from './store/user'
 
 @Component({
   components: {
@@ -21,18 +22,20 @@ import appStore from './store/app'
   }
 })
 export default class App extends Vue {
-  trip = new UserGetTrip()
-  user: User | null = null
+  trip = new UserAddTrip()
 
   created () {
     this.login()
-    this.trip.setParams({ id: 1 })
+    this.getUser()
+  }
+
+  get user () {
+    return userStore.context(this.$store).state.user
   }
 
   async getUser () {
-    await this.trip.execute()
-    console.log('got user', this.trip.user)
-    this.user = this.trip.user || null
+    await userStore.context(this.$store).actions.load()
+    console.log('got user', this.user)
   }
 
   login () {

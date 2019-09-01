@@ -3,7 +3,7 @@ import { User } from '@/models/user'
 import { UserGetTrip } from '@/trips/user'
 
 class State {
-  user = new User()
+  user: User | null = null
 }
 
 class Mutations extends vsm.Mutations<State> {
