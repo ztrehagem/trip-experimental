@@ -5,7 +5,7 @@ import { User } from '@/models/user'
 import store from '@/store'
 import app from '@/store/app'
 
-export class UserGetTrip extends Trip<schema.UserParams, void, schema.User> {
+export class UserGetTrip extends Trip<schema.UserParams, void, void> {
   user?: User;
 
   protected async executor () {
