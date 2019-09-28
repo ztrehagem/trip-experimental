@@ -5,13 +5,17 @@
     <button type="button" @click.prevent="login">login</button>
     <button type="button" @click.prevent="addUser">addUser</button>
     <div>isLoggedIn: {{$store.state.app.isLoggedIn}}</div>
-    <div>submitting: {{submitting}}</div>
+    <div>submitting: {{trip.isSubmitting}}</div>
+    <div>validationErrors: {{trip.validationErrors}}</div>
+    <button @click="changename">changename</button>
+    <hr>
+    <FooBox :user="user"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import HelloWorld from './components/HelloWorld.vue'
+import FooBox from './components/FooBox.vue'
 import { User } from './models/user'
 import { UserGetTrip, UserAddTrip } from './trips/user'
 import appStore from './store/app'
@@ -19,30 +23,28 @@ import userStore from './store/user'
 
 @Component({
   components: {
-    HelloWorld
+    FooBox
   }
 })
 export default class App extends Vue {
   trip = new UserAddTrip()
 
-  created () {
-    this.login()
-    this.getUser()
-  }
-
   get user () {
     return userStore.context(this.$store).state.user
   }
 
-  // not work
   get submitting () {
     return this.trip.isSubmitting
   }
 
-  // not work
   @Watch('trip.isSubmitting')
   onSubmitting () {
     console.log('App submitting?', this.trip.isSubmitting)
+  }
+
+  created () {
+    this.login()
+    this.getUser()
   }
 
   async getUser () {
@@ -56,12 +58,11 @@ export default class App extends Vue {
 
   async addUser () {
     const user = new User()
-    const trip = new UserAddTrip()
-    trip.prepare(user)
+    this.trip.prepare(user)
 
     try {
-      await trip.execute()
-      if (trip.validationErrors) {
+      await this.trip.execute()
+      if (this.trip.validationErrors) {
         console.info('validation error')
       } else {
         console.log('success')
@@ -73,6 +74,12 @@ export default class App extends Vue {
         console.warn('unauthorized')
       }
     }
+  }
+
+  changename () {
+    const u = new User()
+    u.name = 'hoge'
+    userStore.context(this.$store).mutations.setUser(u)
   }
 }
 </script>
