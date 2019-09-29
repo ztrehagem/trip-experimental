@@ -1,6 +1,6 @@
 import * as vsm from 'vuex-smart-module'
-import { User } from '@/models/user'
-import { UserGetTrip } from '@/trips/user'
+import { User } from '@/entities/user'
+import { UserGetTrip } from '@/trips/user-get'
 
 class State {
   user: User | null = null
@@ -26,5 +26,5 @@ class Actions extends vsm.Actions<State, never, Mutations, Actions> {
 export default new vsm.Module({
   state: State,
   mutations: Mutations,
-  actions: Actions
+  actions: Actions,
 })

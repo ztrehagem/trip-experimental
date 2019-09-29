@@ -11,7 +11,7 @@ export function getUser (config: unknown) {
       case 0: return { status: 200,
         data: {
           name: 'myname',
-          birthday: new Date().toUTCString()
+          birthday: new Date().toUTCString(),
         } }
       default: return { status: 404, data: null }
     }

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div>{{user}}</div>
+    <div>{{form}}</div>
     <button type="button" @click.prevent="getUser">getUser</button>
     <button type="button" @click.prevent="login">login</button>
     <button type="button" @click.prevent="addUser">addUser</button>
@@ -9,25 +10,27 @@
     <div>validationErrors: {{trip.validationErrors}}</div>
     <button @click="changename">changename</button>
     <hr>
-    <FooBox :user="user"/>
+    <FooBox :user="form"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import FooBox from './components/FooBox.vue'
-import { User } from './models/user'
-import { UserGetTrip, UserAddTrip } from './trips/user'
+import { User } from './entities/user'
+import { UserGetTrip } from './trips/user-get'
+import { UserAddTrip } from './trips/user-add'
 import appStore from './store/app'
 import userStore from './store/user'
 
 @Component({
   components: {
-    FooBox
-  }
+    FooBox,
+  },
 })
 export default class App extends Vue {
   trip = new UserAddTrip()
+  form = new User()
 
   get user () {
     return userStore.context(this.$store).state.user
@@ -49,6 +52,8 @@ export default class App extends Vue {
 
   async getUser () {
     await userStore.context(this.$store).actions.load()
+    const u = userStore.context(this.$store).state.user
+    this.form = u ? u.clone() : new User()
     console.log('got user', this.user)
   }
 
@@ -79,6 +84,7 @@ export default class App extends Vue {
   changename () {
     const u = new User()
     u.name = 'hoge'
+    this.form = u.clone()
     userStore.context(this.$store).mutations.setUser(u)
   }
 }

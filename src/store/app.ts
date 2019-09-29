@@ -16,5 +16,5 @@ class Actions extends vsm.Actions<State, never, Mutations, Actions> {
 export default new vsm.Module({
   state: State,
   mutations: Mutations,
-  actions: Actions
+  actions: Actions,
 })

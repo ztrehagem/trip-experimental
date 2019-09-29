@@ -8,3 +8,14 @@ export interface User {
   name: string;
   birthday: string;
 }
+
+export interface PublicUser {
+  name: string;
+  birthday: string;
+  nickname: string;
+}
+
+export interface Admin {
+  name: string;
+  level: number;
+}

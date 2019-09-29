@@ -12,7 +12,7 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
 import { PropType } from 'vue'
-import { User } from '@/models/user'
+import { User } from '@/entities/user'
 
 class Foo {
   _hoge = { huga: 'huga' }
